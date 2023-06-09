@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-
+import Card from "./Card";
+import { ChakraProvider } from '@chakra-ui/react'
+import NovoCard from "./NovoCard";
 export default function App() {
   const [users, setUsers] = useState([]);
 
@@ -13,7 +15,6 @@ export default function App() {
       const response = await axios.get(
         "https://jsonplaceholder.typicode.com/users"
       );
-
       setUsers(response.data);
     } catch (error) {
       console.log("Erro ao buscar usuários");
@@ -23,8 +24,16 @@ export default function App() {
 
   return (
     <>
-      <h1>Me apague quando for iniciar!</h1>
-      <p>Chame o Card aqui!</p>
+      <ChakraProvider>
+        {users.map((user) =>{
+          console.log(user)
+          return <Card key={user.id} user={user}/>
+        })}
+                {users.map((user) =>{
+          console.log(user)
+          return <NovoCard key={user.id} user={user}/>
+        })}
+      </ChakraProvider>
     </>
   );
 }
